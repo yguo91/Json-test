@@ -37,6 +37,7 @@ readTextFile(jSNpath, function(text){
     displayLog.innerHTML = "";
     for(let i =0; i<maxlenth; i++){
         let locations = cases[i].fields.location;
+        //get coordinates
         let coordinates = cases[i].fields.geom.coordinates;
 
         let colength = coordinates.length;
@@ -61,14 +62,14 @@ readTextFile(jSNpath, function(text){
            
             var marker = L.marker([x,y]).addTo(map);
 
+            //add notes on marks
+            if (!locations){
+                locations = "Not get information."
+            }
+            marker.bindPopup("<b>Location:</b></br>" + locations);
+
         }
         //console.log(logStr);
-
-        if (!locations){
-            locations = "Not get information."
-        }
-
-
 
         //displayLog.innerHTML += ("<p>" + (i+1) + " . " + locations + "</p>") ;
     }
