@@ -1,83 +1,114 @@
 "use strick";
 
-//set up the map
-var map = L.map('map').setView([49.251445, -123.001236], 17);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.bcit.ca"><img src="./pics/bcit_logo.jpg"></a>'
-        }).addTo(map);
+const pageID = document.getElementById("pageID").tagName;
 
-const jSNpath = "./road-ahead-current-road-closures.json";
+if(pageID == "P"){
 
-var cases;
-const displayLog = document.getElementById("text1");
-var maxlenth;
+    //set up the map
+    var map = L.map('map').setView([49.251445, -123.001236], 17);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.bcit.ca"><img src="./pics/bcit_logo.jpg"></a>'
+            }).addTo(map);
 
-//setup function to access json
-function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
-}
+    const LocalJson = "./road-ahead-current-road-closures.json";
+    const jSNpath = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=road-ahead-current-road-closures&q=&facet=comp_date";
+    const jSNpath2 = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=road-ahead-projects-under-construction&q=&facet=comp_date";
 
-//access data from json file:
-readTextFile(jSNpath, function(text){
-    cases = JSON.parse(text);
+    var cases;
+    //const displayLog = document.getElementById("text1");
 
-    //for debug
-    //console.log(cases);
-    maxlenth = cases.length;
+    var maxlenth;
 
-    displayLog.innerHTML = "";
-    for(let i =0; i<maxlenth; i++){
-        let projectName = cases[i].fields.project;
-        let projectDate = cases[i].fields.comp_date;
-        //get coordinates
-        let coordinates = cases[i].fields.geom.coordinates;
-
-        let colength = coordinates.length;
-        let coStr = " ";
-        coStr += (colength + " "); 
-        console.log(coStr);
-
-        let logStr = " ";
-
-        for(let j = 0; j<colength; j++){
-            logStr += (coordinates[j] + " ") //for debug
-            let x = coordinates[j][1];
-            let y = coordinates[j][0];
-            
-            let t = y[0];
-            if(!(t == null)){
-                x = coordinates[j][0][1];
-                y = coordinates[j][0][0];
+    //setup function to access json
+    function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
             }
-            
-            //console.log(x);            
-           
-            var marker = L.marker([x,y]).addTo(map);
-
-            //add notes on marks
-            if (!projectName){
-                projectName = "Not get information."
-            }
-            marker.bindPopup("<b>Project Name:</b></br>" + projectName + "</br><b>Date: </b>" + projectDate);
-
         }
-        //console.log(logStr);
+        rawFile.send(null);
+    } //end the function
 
-        //displayLog.innerHTML += ("<p>" + (i+1) + " . " + locations + "</p>") ;
-    }
+    //access data from json file:
+    readTextFile(LocalJson, function(text){
+        cases = JSON.parse(text);
 
-});
+        //for debug
+        console.log(cases);
+        maxlenth = cases.length;
 
+        //displayLog.innerHTML = " ";
+        for(let i =0; i<maxlenth; i++){
+            let projectName = cases[i].fields.project;
+            let projectDate = cases[i].fields.comp_date;
+            //get coordinates
+            let coordinates = cases[i].fields.geom.coordinates;
 
+            let colength = coordinates.length;
+            let coStr = " ";
+            coStr += (colength + " "); 
+            console.log(coStr);
 
+            let logStr = " ";
 
+            for(let j = 0; j<colength; j++){
+                logStr += (coordinates[j] + " ") //for debug
+                let x = coordinates[j][1];
+                let y = coordinates[j][0];
+                
+                let t = y[0];
+                if(!(t == null)){
+                    x = coordinates[j][0][1];
+                    y = coordinates[j][0][0];
+                }
+                
+                //console.log(x);            
+            
+                var marker = L.marker([x,y]).addTo(map);
 
+                //add notes on marks
+                if (!projectName){
+                    projectName = "Not get information."
+                }
+                marker.bindPopup("<b>Project Name:</b></br>" + projectName + "</br><b>Date: </b>" + projectDate);
+
+            }
+            //console.log(logStr);
+
+            //displayLog.innerHTML += ("<p>" + (i+1) + " . " + locations + "</p>") ;
+        }
+
+    });
+
+    readTextFile(jSNpath2,function(text){
+        const list2 = JSON.parse(text);
+        
+        
+        
+
+    });
+
+} //end if
+
+// document.getElementById("btnSubmit").addEventListener("click", searchFunction());
+//       function searchFunction() {
+//         let strSearchKey = document.getElementById("inputStr").value;
+        
+//         window.location.href="./searchResult.html";
+        
+//         document.getElementById("statement").innerHTML(strSearchKey);
+    
+//     }
+
+async function searchFunction() {
+    var  inputBox = document.getElementById("inputStr");
+    let strSearchKey =inputBox.value;
+    window.location.href="searchResult.html";
+    window.addEventListener('load', function () {
+            document.getElementById("statment").innerHTML = "You are searching for: " + strSearchKey;
+        })    
+} 
