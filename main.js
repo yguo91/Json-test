@@ -1,10 +1,6 @@
 "use strick";
 
-const pageID = document.getElementById("pageID").tagName;
-
-if(pageID == "P"){
-
-    //set up the map
+ //set up the map
     var map = L.map('map').setView([49.251445, -123.001236], 17);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -92,8 +88,6 @@ if(pageID == "P"){
 
     });
 
-} //end if
-
 // document.getElementById("btnSubmit").addEventListener("click", searchFunction());
 //       function searchFunction() {
 //         let strSearchKey = document.getElementById("inputStr").value;
@@ -106,9 +100,6 @@ if(pageID == "P"){
 
 async function searchFunction() {
     var  inputBox = document.getElementById("inputStr");
-    let strSearchKey =inputBox.value;
-    window.location.href="searchResult.html";
-    window.addEventListener('load', function () {
-            document.getElementById("statment").innerHTML = "You are searching for: " + strSearchKey;
-        })    
+    var strSearchKey =inputBox.value;
+    window.location = "./searchResult.html?key=" + strSearchKey;    
 } 
