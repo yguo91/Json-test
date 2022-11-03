@@ -78,5 +78,6 @@ readTextFile(LocalJson, function(text){
 
 });
 
-
-//display the result
+async function pointMap(){
+    window.open("./index.html?key=" + searchValue);
+}

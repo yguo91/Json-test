@@ -88,6 +88,11 @@
 
     });
 
+    const urlParamas = new URLSearchParams(window.location.search);
+    const strSearchKey = urlParamas.get("key");
+
+    console.log(strSearchKey);
+
 // document.getElementById("btnSubmit").addEventListener("click", searchFunction());
 //       function searchFunction() {
 //         let strSearchKey = document.getElementById("inputStr").value;
