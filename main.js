@@ -34,7 +34,7 @@
         cases = JSON.parse(text);
 
         //for debug
-        console.log(cases);
+        // console.log(cases);
         maxlenth = cases.length;
 
         //displayLog.innerHTML = " ";
@@ -98,6 +98,7 @@
     
 //     }
 
+//pakage the search key
 async function searchFunction() {
     var  inputBox = document.getElementById("inputStr");
     var strSearchKey =inputBox.value;
