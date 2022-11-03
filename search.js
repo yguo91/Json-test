@@ -38,8 +38,8 @@ function readTextFile(file, callback) {
     }
     rawFile.send(null);
 } //end the function
+//initial road status
 let roadSatus = "";
-
 //access data from json file:
 readTextFile(LocalJson, function(text){
     const cases = JSON.parse(text);
@@ -52,22 +52,28 @@ readTextFile(LocalJson, function(text){
 
     for(let i=0; i<maxlenth; i++){
         let projectLocation = cases[i].fields.location;
+        //incase for empty reading
         if (!projectLocation){
             projectLocation = "Cannot match";
         }
 
-        console.log(projectLocation);
+        //console.log(projectLocation); //for test usage
 
         if(projectLocation.toString().includes(searchValue)){
+            //get case info
             let projectName = cases[i].fields.project;
             let projectDate = cases[i].fields.comp_date;            
             document.getElementById("roadSta").src = "./pics/road_close.jpg";
-            status += "<h2>Road is//will be closed.</h2><h3>Project Name:</h3>" + projectName + "<h3>Project Date:</h3>" + projectDate;    
+            //create multi records for multi matches
+            status += "<h2>Road is//will be closed.</h2><h3>Project Name:</h3>" 
+                + projectName + "<h3>Project Date:</h3>" + projectDate;    
         }
     }//end for loop
+    //setup for empty search matches
     if (!status){ 
         status = "<h2>Have a good trip, the road is okay.</h2>"
     }
+    //refresh the page, if refresh in the loop, only the final one will show on.
     document.getElementById("statment").innerHTML = status;
 
 });

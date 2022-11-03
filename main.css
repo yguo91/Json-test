@@ -15,6 +15,6 @@ html, body {
     height: 900px;
     margin-top: 50px;
     width: 100%;
-    position: fixed;
-    background: none;
+    position: fixed; /*must work with the background setting*/
+    background: none; /*important for map*/
 }
