@@ -1,7 +1,7 @@
 "use strick";
 
  //set up the map
-    var map = L.map('map').setView([49.251445, -123.001236], 17);
+    var map = L.map('map').setView([49.26145007393785, -123.07753628444047], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.bcit.ca"><img src="./pics/bcit_logo.jpg"></a>'

@@ -4,7 +4,17 @@ html, body {
     overflow: hidden
 }
 
+#searchBar{
+    margin: 30px;
+}
+#inputStr{
+    font-size: xx-large;
+}
+
 #map{
     height: 900px;
-    margin-top: 10%;
+    margin-top: 50px;
+    width: 100%;
+    position: fixed;
+    background: none;
 }
