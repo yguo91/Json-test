@@ -10,17 +10,49 @@ document.getElementById("statment").innerHTML = searchValue;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //retrive the data from json file
 const LocalJson = "./road-ahead-current-road-closures.json";
-// const jSNpath = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=road-ahead-current-road-closures&q=&format=json";
 
+// loadJSON method to open the JSON file.
+function loadJSON(path, success, error) {
+  let rawDataFile = new XMLHttpRequest();
+  rawDataFile.open('GET', path, true);
+  rawDataFile.onreadystatechange = function(){
+    if (rawDataFile.readyState === 4) {
+      if (rawDataFile.status === 200) {
+        success(JSON.parse(rawDataFile.responseText));
+      }
+      else {
+        error(rawDataFile.status);
+      }
+    }
+  };    
+  rawDataFile.send();
+}
+const jSNpath = "https://opendata.vancouver.ca/api/records/1.0/search/?dataset=road-ahead-current-road-closures&q=&format=json";
+  
+  loadJSON(jSNpath, getData,'jsonStatus');  
+  
+  function getData(Data)
+  {  
+    // Output only the details on the first post
+    console.log(Data.records);   
+  }
+ 
+  // here is what I was writing, which is wrong. 
+  // The mistake is using jQuery $.getJSON() to get 
+  // the JSON file, which will not directly give me 
+  // the data in JSON, but give back a  jqXHR Object. 
+  // I was always stuck on extracting data from this object. 
+  // If you guys see some way to do this, please tell me anytime.
 // const jsonRC = $.getJSON(jSNpath);
-
-// const jsStr = JSON.parse(jsonRC.responseJSON);
-
 // console.log(jsonRC);
-//console.log(jsStr);
+
+// const jsObj = JSON.parse(jsonRC.responseText);
+
+// const jsObj = $.parseJson(jsonRC);
+// console.log(jsObj);
 
 // function getJson(file){
-//    return JSON.parse(file);
+//    return JSON.parseJson(file);
 // }
 // const jsonText = getJson(LocalJson);
 // console.log(jsonText);
